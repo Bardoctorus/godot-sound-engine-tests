@@ -3,13 +3,14 @@ extends Node
 var sample_rate = 44100.0 
 var startingFreq = 440.0
 var synth: WaveTableSynth = WaveTableSynth.new()
+
 var playback: AudioStreamPlayback = null # Actual playback stream, assigned in _ready().
 
 
 
 func _ready():
 	print("synth type %s", synth)
-	
+
 	var example := ExampleClass.new()
 	example.print_type(example)
 	

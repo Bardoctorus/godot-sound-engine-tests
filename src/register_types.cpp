@@ -6,6 +6,8 @@
 #include <godot_cpp/godot.hpp>
 
 #include "example_class.h"
+#include "CppWavetableOscillator.h"
+#include "CppWavetableSynth.h"
 
 using namespace godot;
 
@@ -15,6 +17,9 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 		return;
 	}
 	GDREGISTER_CLASS(ExampleClass);
+	GDREGISTER_CLASS(CppWavetableSynth);
+
+	GDREGISTER_CLASS(CppWavetableOscillator);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {

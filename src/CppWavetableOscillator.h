@@ -9,27 +9,30 @@ using namespace godot;
 class CppWavetableOscillator : public RefCounted {
     GDCLASS(CppWavetableOscillator, RefCounted)
 
-protected:
-	static void _bind_methods();
+    protected:
+        static void _bind_methods();
 
-public:
-    CppWavetableOscillator(Array _waveTable, float _sampleRate, float _frequency);
-    ~CppWavetableOscillator();
+    public:
+        CppWavetableOscillator();
+        ~CppWavetableOscillator() = default;
 
-    float getSample();
-    void setFrequency(float _frequency);
-    void start();
-    void stop();
-    void update(float _frequency);
-    float interpolateLiniarly();
+        float getSample();
+        void setFrequency(float _frequency);
+        float getFrequency() const;
+        void start();
+        void stop();
+        void update(float _frequency);
+        float interpolateLiniarly();
+        void _init(Array _waveTable, float _sampleRate, float _frequency);
+        bool currentlyPlaying();
 
-private:
-    Array waveTable;
-    float sampleRate;
-    float index;
-    float increment;
-    float frequency;
-    bool isPlaying;
+    private:
+        Array waveTable;
+        float sampleRate;
+        float index;
+        float increment;
+        float frequency;
+        bool isPlaying;
 
 
 };
