@@ -1,6 +1,7 @@
 
 #include "CppWavetableSynth.h"
 #include "godot_cpp/core/math.hpp"
+#include "godot_cpp/classes/audio_stream_generator_playback.hpp"
 
 
 
@@ -41,11 +42,11 @@ void CppWavetableSynth::updateFreqency(float _frequency){
 void CppWavetableSynth::prepareToPlay(float _samplerate, float _startingFreq){
     initOscillator(_samplerate, _startingFreq);
 }
-void CppWavetableSynth::render(AudioStreamGeneratorPlayback playback){
+void CppWavetableSynth::render(AudioStreamGeneratorPlayback* playback){
     if (oscillator.currentlyPlaying()){
-        for (int i = 0; i < playback.get_frames_available(); ++i){
+        for (int i = 0; i < playback->get_frames_available(); ++i){
             float sample = oscillator.getSample();
-            playback.push_frame(Vector2(sample, sample));
+            playback->push_frame(Vector2(sample, sample));
         }
     }
 }

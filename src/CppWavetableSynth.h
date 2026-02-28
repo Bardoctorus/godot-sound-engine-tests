@@ -22,7 +22,7 @@ class CppWavetableSynth: public RefCounted {
         void handleInput(bool message);
         void updateFreqency(float _frequency);
         void prepareToPlay(float _samplerate, float _startingFreq);
-        void render(AudioStreamGeneratorPlayback playback);
+        void render(AudioStreamGeneratorPlayback* playback);
 
     private:
         CppWavetableOscillator oscillator;
