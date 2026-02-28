@@ -4,24 +4,25 @@ var sample_rate = 44100.0
 var startingFreq = 440.0
 var synth: WaveTableSynth = WaveTableSynth.new()
 var playback: AudioStreamPlayback = null # Actual playback stream, assigned in _ready().
-var csynth
+var csynth := CppWavetableSynth.new()
 
 
 func _ready():
 	print("synth type %s", synth)
-	print("csynth type %s", synth)
-	var example := ExampleClass.new()
 	
+	print("csynth type %s", csynth)
 
-	example.print_type(example)
 	
 	$Player.stream.mix_rate = sample_rate 	# Setting mix rate is only possible before play().
 	csynth.prepareToPlay(sample_rate, startingFreq)
+	#synth.prepareToPlay(sample_rate, startingFreq)
+
 	$Player.play()
 	playback = $Player.get_stream_playback()
 	
 func _process(_delta):
 	csynth.render(playback)
+	#synth.render(playback)
 	
 
 #--- UI ---#
@@ -29,6 +30,7 @@ func _process(_delta):
 func _on_frequency_h_slider_value_changed(value):
 	%FrequencyLabel.text = "%d Hz" % value
 	csynth.updateFrequency(value)
+	#synth.updateFrequency(value)
 	
 
 func _on_volume_h_slider_value_changed(value):
@@ -39,9 +41,12 @@ func _on_volume_h_slider_value_changed(value):
 #-BUTTONS
 func _on_hold_button_button_down():
 	csynth.handleInput(true)
+	#synth.handleInput(true)
 	
 func _on_hold_button_button_up():
 	csynth.handleInput(false)
+	#synth.handleInput(false)
 
 func _on_button_toggled(toggled_on):
 	csynth.handleInput(toggled_on)
+	#synth.handleInput(toggled_on)

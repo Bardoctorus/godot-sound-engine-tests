@@ -19,6 +19,8 @@ class CppWavetableOscillator : public RefCounted {
         float getSample();
         void setFrequency(float _frequency);
         float getFrequency() const;
+        void setIncrement(float _increment);
+        float getIncrement() const;
         void start();
         void stop();
         void update(float _frequency);

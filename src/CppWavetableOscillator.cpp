@@ -11,8 +11,11 @@ void CppWavetableOscillator::_bind_methods(){
 
     godot::ClassDB::bind_method(D_METHOD("getFrequency"), &CppWavetableOscillator::getFrequency);
     godot::ClassDB::bind_method(D_METHOD("setFrequency", "_frequency"), &CppWavetableOscillator::setFrequency);
+    godot::ClassDB::bind_method(D_METHOD("getIncrement"), &CppWavetableOscillator::getIncrement);
+    godot::ClassDB::bind_method(D_METHOD("setIncrement", "_frequency"), &CppWavetableOscillator::setIncrement);
    
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "frequency"),"setFrequency", "getFrequency");
+
 }
 
 CppWavetableOscillator::CppWavetableOscillator()
@@ -39,11 +42,19 @@ void CppWavetableOscillator::_init(Array _waveTable, float _sampleRate, float _f
 
 void CppWavetableOscillator::setFrequency(float _frequency){
     frequency = _frequency;
-    increment = frequency * ((float)waveTable.size() /sampleRate);
+    setIncrement(frequency);
 }
 
 float CppWavetableOscillator::getFrequency() const{
     return frequency;
+}
+
+void CppWavetableOscillator::setIncrement(float _frequency){
+    increment = _frequency * ((float)waveTable.size() /sampleRate);
+}
+
+float CppWavetableOscillator::getIncrement() const {
+    return increment;
 }
 
 void CppWavetableOscillator::start(){
@@ -52,7 +63,7 @@ void CppWavetableOscillator::start(){
 }
 
 void CppWavetableOscillator::update(float _frequency){
-    setFrequency(frequency);  
+    setFrequency(_frequency);  
 }
 
 bool CppWavetableOscillator::currentlyPlaying(){
@@ -68,7 +79,8 @@ void CppWavetableOscillator::stop(){
 
 float CppWavetableOscillator::interpolateLiniarly(){
     int truncatedIndex = floor(index);
-    int nextIndex = ceil((int)index % waveTable.size());
+    //int nextIndex = ceil((int)index % waveTable.size());
+    int nextIndex = (int)ceil(index) % waveTable.size();
     float nextIndexWeight = index - (float)truncatedIndex;
     float nextWave = waveTable[nextIndex];
     float trucWave = waveTable[truncatedIndex];

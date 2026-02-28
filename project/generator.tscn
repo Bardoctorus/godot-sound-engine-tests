@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dkwc0p5c5k2kj" path="res://generator_demo.gd" id="1"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_yybav"]
-buffer_length = 1.22
+buffer_length = 0.03
 
 [node name="Generator" type="Node" unique_id=1491242915]
 script = ExtResource("1")

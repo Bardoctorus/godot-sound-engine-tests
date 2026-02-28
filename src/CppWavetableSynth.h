@@ -20,10 +20,10 @@ class CppWavetableSynth: public RefCounted {
         ~CppWavetableSynth() = default;
         void initOscillator(float _sampleRate, float _startingFreq);
         void handleInput(bool message);
-        void updateFreqency(float _frequency);
+        void updateFrequency(float _frequency);
         void prepareToPlay(float _samplerate, float _startingFreq);
-        void render(AudioStreamGeneratorPlayback* playback);
+        void render(Ref<AudioStreamGeneratorPlayback> playback);
 
     private:
-        CppWavetableOscillator oscillator;
+        Ref<CppWavetableOscillator> oscillator;
 };
