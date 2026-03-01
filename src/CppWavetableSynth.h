@@ -9,6 +9,13 @@ using namespace godot;
 
 #define WAVETABLE_LENGTH 64
 
+enum WaveTableType {
+    SINEWAVE,
+    SQUAREWAVE,
+    SAWTOOTHWAVE,
+    TRIANGLEWAVE,
+};
+
 class CppWavetableSynth: public RefCounted {
     GDCLASS(CppWavetableSynth, RefCounted);
 
@@ -18,12 +25,20 @@ class CppWavetableSynth: public RefCounted {
     public:
         CppWavetableSynth();
         ~CppWavetableSynth() = default;
-        void initOscillator(float _sampleRate, float _startingFreq);
+        void initOscillator(float _sampleRate, float _startingFreq, WaveTableType initType);
         void handleInput(bool message);
         void updateFrequency(float _frequency);
-        void prepareToPlay(float _samplerate, float _startingFreq);
+        void prepareToPlay(float _samplerate, float _startingFreq, WaveTableType initType);
         void render(Ref<AudioStreamGeneratorPlayback> playback);
+        void setWaveTableType(WaveTableType p_type);
+        WaveTableType getWaveTableType() const;
+        float fillWaveTable (int i, WaveTableType waveTableType);
+
 
     private:
         Ref<CppWavetableOscillator> oscillator;
+        WaveTableType waveTableType;
+
 };
+
+VARIANT_ENUM_CAST(WaveTableType);

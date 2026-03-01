@@ -7,14 +7,16 @@ var playback: AudioStreamPlayback = null # Actual playback stream, assigned in _
 var csynth := CppWavetableSynth.new()
 
 
+
 func _ready():
 	print("synth type %s", synth)
 	
 	print("csynth type %s", csynth)
-
 	
+	var type = csynth.waveTableType
+	var osc = CppWavetableOscillator.new()
 	$Player.stream.mix_rate = sample_rate 	# Setting mix rate is only possible before play().
-	csynth.prepareToPlay(sample_rate, startingFreq)
+	csynth.prepareToPlay(sample_rate, startingFreq, type)
 	#synth.prepareToPlay(sample_rate, startingFreq)
 
 	$Player.play()
@@ -22,7 +24,12 @@ func _ready():
 	
 func _process(_delta):
 	csynth.render(playback)
+	
 	#synth.render(playback)
+	pass
+	
+
+
 	
 
 #--- UI ---#

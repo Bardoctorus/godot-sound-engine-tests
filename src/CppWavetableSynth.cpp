@@ -12,24 +12,71 @@
     godot::ClassDB::bind_method(D_METHOD("updateFrequency", "_frequency"), &CppWavetableSynth::updateFrequency);
     godot::ClassDB::bind_method(D_METHOD("prepareToPlay", "_sampleRate", "_startingFreq"), &CppWavetableSynth::prepareToPlay);
     godot::ClassDB::bind_method(D_METHOD("render", "playback"), &CppWavetableSynth::render);
+    godot::ClassDB::bind_method(D_METHOD("setWaveTableType" , "type"), &CppWavetableSynth::setWaveTableType);
+    godot::ClassDB::bind_method(D_METHOD("getWaveTableType"), &CppWavetableSynth::getWaveTableType);
+    godot::ClassDB::bind_method(D_METHOD("fillWaveTable", "int", "wavetype"), &CppWavetableSynth::fillWaveTable);
 
 
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "waveTableType", PROPERTY_HINT_ENUM, "sine, square, sawtooth, triangle"), "setWaveTableType",  "getWaveTableType");
 
+    BIND_ENUM_CONSTANT(WaveTableType::SAWTOOTHWAVE);
+    BIND_ENUM_CONSTANT(WaveTableType::SINEWAVE);
+    BIND_ENUM_CONSTANT(WaveTableType::SQUAREWAVE);
+    BIND_ENUM_CONSTANT(WaveTableType::TRIANGLEWAVE);
 
  }
 
 
 CppWavetableSynth::CppWavetableSynth(){
     oscillator.instantiate();
+    WaveTableType waveTableType = WaveTableType::SAWTOOTHWAVE;
     print_line("constructor");
 };
 
-void CppWavetableSynth::initOscillator(float _sampleRate, float _startingFreq){
-    Array sineWaveTable;
-    for(int i = 0; i < WAVETABLE_LENGTH; ++i){
-        sineWaveTable.append(sinf(Math_TAU * ((float)i / WAVETABLE_LENGTH)));
+void CppWavetableSynth::setWaveTableType(WaveTableType p_type){
+    waveTableType = p_type;
+}
+
+WaveTableType CppWavetableSynth::getWaveTableType() const {
+    return waveTableType;
+}
+
+
+
+float CppWavetableSynth::fillWaveTable (int i, WaveTableType waveTableType){
+    float value;
+    switch (waveTableType)
+    {
+    case SAWTOOTHWAVE:
+        value = 2.0f * ((float)i / WAVETABLE_LENGTH) - 1.0f;
+        break;
+    case SQUAREWAVE:
+        value = sinf(Math_TAU * ((float)i / WAVETABLE_LENGTH)) >= 0.0 ? 1.0:-1.0;;
+        break;
+    case SINEWAVE:
+        value = sinf(Math_TAU * ((float)i / WAVETABLE_LENGTH));
+        break;
+    case TRIANGLEWAVE:
+        value = 1 - fabs(((float)i / WAVETABLE_LENGTH)-0.5f) * 4;
+        break;
+
+    default:
+        value = 0.0f;
+        break;
     }
-    oscillator->_init(sineWaveTable, _sampleRate, _startingFreq);
+
+    return value;
+}
+
+
+
+void CppWavetableSynth::initOscillator(float _sampleRate, float _startingFreq, WaveTableType p_type){
+    Array wavetable;
+    
+    for(int i = 0; i < WAVETABLE_LENGTH; ++i){
+        wavetable.append(fillWaveTable(i, p_type));
+    }
+    oscillator->_init(wavetable, _sampleRate, _startingFreq);
 }
 void CppWavetableSynth::handleInput(bool message){
     if (message == true){
@@ -43,8 +90,8 @@ void CppWavetableSynth::updateFrequency(float _frequency){
     print_line("update freq: %s", _frequency);
     oscillator->update(_frequency);
 }
-void CppWavetableSynth::prepareToPlay(float _samplerate, float _startingFreq){
-    initOscillator(_samplerate, _startingFreq);
+void CppWavetableSynth::prepareToPlay(float _samplerate, float _startingFreq, WaveTableType initType){
+    initOscillator(_samplerate, _startingFreq, initType);
         print_line("prep to play");
 
 }
