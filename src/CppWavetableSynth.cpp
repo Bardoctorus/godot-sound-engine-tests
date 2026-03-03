@@ -17,19 +17,20 @@
     godot::ClassDB::bind_method(D_METHOD("fillWaveTable", "int", "wavetype"), &CppWavetableSynth::fillWaveTable);
 
 
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "waveTableType", PROPERTY_HINT_ENUM, "sine, square, sawtooth, triangle"), "setWaveTableType",  "getWaveTableType");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "wtype", PROPERTY_HINT_ENUM, "sine,square,sawtooth,triangle"), "setWaveTableType",  "getWaveTableType");
 
-    BIND_ENUM_CONSTANT(WaveTableType::SAWTOOTHWAVE);
-    BIND_ENUM_CONSTANT(WaveTableType::SINEWAVE);
-    BIND_ENUM_CONSTANT(WaveTableType::SQUAREWAVE);
-    BIND_ENUM_CONSTANT(WaveTableType::TRIANGLEWAVE);
+    BIND_ENUM_CONSTANT(SINEWAVE);
+    BIND_ENUM_CONSTANT(SQUAREWAVE);
+    BIND_ENUM_CONSTANT(SAWTOOTHWAVE);
+    BIND_ENUM_CONSTANT(TRIANGLEWAVE);
 
  }
 
 
 CppWavetableSynth::CppWavetableSynth(){
     oscillator.instantiate();
-    WaveTableType waveTableType = WaveTableType::SAWTOOTHWAVE;
+    //WaveTableType waveTableType = WaveTableType::SAWTOOTHWAVE;
+    setWaveTableType(WaveTableType::TRIANGLEWAVE);
     print_line("constructor");
 };
 

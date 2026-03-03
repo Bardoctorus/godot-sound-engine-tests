@@ -3,7 +3,14 @@ class_name WaveTableSynth
 var oscillators = []
 var oscillator: WavetableOscillator = null
 var WAVETABLE_LENGTH = 64
+var waveType: int
 
+enum WAVE_TYPE {
+	SINEWAVE,
+	SQUAREWAVE,
+	SAWTOOTHWAVE,
+	TRIANGLEWAVE}
+	
 
 	
 	

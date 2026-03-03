@@ -16,6 +16,8 @@ enum WaveTableType {
     TRIANGLEWAVE,
 };
 
+VARIANT_ENUM_CAST(WaveTableType);
+
 class CppWavetableSynth: public RefCounted {
     GDCLASS(CppWavetableSynth, RefCounted);
 
@@ -37,8 +39,7 @@ class CppWavetableSynth: public RefCounted {
 
     private:
         Ref<CppWavetableOscillator> oscillator;
-        WaveTableType waveTableType;
+        WaveTableType waveTableType = WaveTableType::SAWTOOTHWAVE;
 
 };
 
-VARIANT_ENUM_CAST(WaveTableType);

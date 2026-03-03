@@ -7,6 +7,7 @@ buffer_length = 0.02
 
 [node name="Generator" type="Node" unique_id=1491242915]
 script = ExtResource("1")
+Cpp_Wavetype = 3
 
 [node name="Player" type="AudioStreamPlayer" parent="." unique_id=443543977]
 stream = SubResource("AudioStreamGenerator_yybav")

@@ -6,15 +6,23 @@ var synth: WaveTableSynth = WaveTableSynth.new()
 var playback: AudioStreamPlayback = null # Actual playback stream, assigned in _ready().
 var csynth := CppWavetableSynth.new()
 
+@export var wave_type:= WaveTableSynth.WAVE_TYPE.SINEWAVE
+
+@export_enum ("Sine", "Square", "Saw", "Triangle") var Cpp_Wavetype: int = 0
 
 
 func _ready():
-	print("synth type %s", synth)
+	synth.waveType = synth.WAVE_TYPE.SINEWAVE
+	print (synth.waveType)
+	synth.waveType = synth.WAVE_TYPE.SAWTOOTHWAVE
+	print (synth.waveType)
+	var type = csynth.wtype
+	print ("type: ", type)
+	csynth.wtype = Cpp_Wavetype
+	type = csynth.wtype
+	print ("type: ", type)
+
 	
-	print("csynth type %s", csynth)
-	
-	var type = csynth.waveTableType
-	var osc = CppWavetableOscillator.new()
 	$Player.stream.mix_rate = sample_rate 	# Setting mix rate is only possible before play().
 	csynth.prepareToPlay(sample_rate, startingFreq, type)
 	#synth.prepareToPlay(sample_rate, startingFreq)
