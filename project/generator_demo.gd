@@ -8,6 +8,7 @@ var csynth := CppWavetableSynth.new()
 
 @export var wave_type:= WaveTableSynth.WAVE_TYPE.SINEWAVE
 
+
 @export_enum ("Sine", "Square", "Saw", "Triangle") var Cpp_Wavetype: int = 0
 
 
